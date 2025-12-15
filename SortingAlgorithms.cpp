@@ -1,11 +1,17 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <climits>
 using namespace std;
 
-void bubbleSort(int arr[], int n);                          // O(n^2)
+void bubbleSort(int arr[], int n); // O(n^2)
+void mergeSort(vector<int> &v);    // O(n log n)
+void selectionSort(vector<int> &v);
+void insertionSort(vector<int> &v);
 vector<int> mergeSortedLists(vector<int> a, vector<int> b); // O(m+n)
-void mergeSort(vector<int> &v);                             // O(n log n)
+vector<int> mergeSortedLists(vector<int> a, vector<int> b);
+vector<int> mergeSortHelper(vector<int> arr, int start, int end);
+void quickSort(vector<int> &v, int st, int end);
 
 int main()
 {
@@ -22,8 +28,9 @@ int main()
     //     cout << x << " ";
     // cout << "\n";
 
-    vector<int> v = {4, 2, 3, 5, 7, 6, 1};
-    mergeSort(v);
+    vector<int> v = {4, 2, 3, 4, 7, 5, 7, 6, 1};
+    // mergeSort(v);
+    quickSort(v, 0, v.size() - 1);
     for (int x : v)
         cout << x << " ";
     cout << endl;
@@ -76,17 +83,83 @@ vector<int> mergeSortedLists(vector<int> a, vector<int> b)
     return v;
 }
 
-void mergeSort(vector<int> &v)
+void selectionSort(vector<int> &v)
 {
-    v = help(v, 0, v.size() - 1);
+    int unSorted = 0;
+    int n = v.size();
+    for (int i = 0; i < n; i++)
+    {
+        int minm = INT_MAX;
+        int minIdx = unSorted;
+        for (int j = unSorted; j < n; j++)
+        {
+            if (v[j] < minm)
+            {
+                minm = v[j];
+                minIdx = j;
+            }
+        }
+        swap(v[minIdx], v[unSorted]);
+        unSorted++;
+    }
 }
 
-vector<int> help(vector<int> arr, int start, int end)
+void insertionSort(vector<int> &v)
+{
+    int prev, curr;
+    int n = v.size();
+    for (int i = 1; i < n; i++)
+    {
+        curr = v[i];
+        prev = i - 1;
+        while (prev > 0 && curr < v[prev])
+        {
+            v[prev + 1] = v[prev];
+            prev--;
+        }
+        v[prev] = curr;
+    }
+}
+
+vector<int> mergeSortHelper(vector<int> arr, int start, int end)
 {
     if (start == end)
         return vector<int>{arr[start]};
     int mid = start + (end - start) / 2;
-    vector<int> left = help(arr, start, mid);
-    vector<int> right = help(arr, mid + 1, end);
+    vector<int> left = mergeSortHelper(arr, start, mid);
+    vector<int> right = mergeSortHelper(arr, mid + 1, end);
     return mergeSortedLists(left, right);
+}
+
+void mergeSort(vector<int> &v)
+{
+    v = mergeSortHelper(v, 0, v.size() - 1);
+}
+
+int partition(vector<int> &v, int st, int end)
+{
+    int idx = st - 1;
+    int pivot = v[end];
+    for (int j = st; j < end; j++)
+    {
+        if (v[j] <= pivot)
+        {
+            idx++;
+            swap(v[idx], v[j]);
+        }
+    }
+    idx++;
+    swap(v[idx], v[end]);
+    return idx;
+}
+
+void quickSort(vector<int> &v, int st, int end)
+{
+    if (st < end)
+    {
+        int pivotIdx = partition(v, st, end);
+        quickSort(v, st, pivotIdx - 1);
+        quickSort(v, pivotIdx + 1, end);
+    }
+    return;
 }
