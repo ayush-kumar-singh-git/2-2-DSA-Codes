@@ -73,25 +73,31 @@ void Problem4(int n, int arr[])
     printf("\n");
 }
 
-void Problem3_BrutteForce(int n, int arr[], int i, int sum, int m, int idx[], int target, int* done){
-    if(*done==1) return;
-    if(sum>target) return;
-    if(sum == target){
-        *done=1;
+void Problem3_BrutteForce(int n, int arr[], int i, int sum, int m, int idx[], int target, int *done)
+{
+    if (*done == 1)
+        return;
+    if (sum > target)
+        return;
+    if (sum == target)
+    {
+        *done = 1;
         printf("POSSIBLE\n");
-        for(int j = 0; j<m; j++){
-            printf("%d ",idx[j]);
+        for (int j = 0; j < m; j++)
+        {
+            printf("%d ", idx[j]);
         }
         printf("\n");
         return;
     }
-    if(i>=n) return;
-    //not take
-    Problem3_BrutteForce(n,arr,i+1,sum, m, idx, target, done);
-    //take
-    idx[m]=i;
+    if (i >= n)
+        return;
+    // not take
+    Problem3_BrutteForce(n, arr, i + 1, sum, m, idx, target, done);
+    // take
+    idx[m] = i;
     m++;
-    Problem3_BrutteForce(n,arr,i+1,sum+arr[i], m, idx, target, done);
+    Problem3_BrutteForce(n, arr, i + 1, sum + arr[i], m, idx, target, done);
 }
 
 int main()
@@ -115,15 +121,17 @@ int main()
     int n;
     scanf("%d", &n);
     int arr[n];
-    for(int i=0;i<n;i++){
+    for (int i = 0; i < n; i++)
+    {
         scanf("%d", &arr[i]);
     }
     int tgt;
     scanf("%d", &tgt);
     int done = 0;
     int idx[10000];
-    Problem3_BrutteForce(n,arr,0,0,0,idx,tgt,&done);
-    if(done==0){
+    Problem3_BrutteForce(n, arr, 0, 0, 0, idx, tgt, &done);
+    if (done == 0)
+    {
         printf("NOT POSSIBLE\n");
     }
     // for problem 4
