@@ -17,10 +17,12 @@ void problem7();
 bool hasStrChars(char *line, int st, int end, int *tgt);
 void problem8();
 bool isPalindrome(char *word, int len);
+void problem9();
+void problem10();
 
 int main()
 {
-    problem8();
+    problem10();
     return 0;
 }
 
@@ -495,11 +497,90 @@ bool isPalindrome(char *word, int len)
         printf("%c", word[i]);
     }
     printf(" ");
-    if(len==1) return false;
+    if (len == 1)
+        return false;
     for (int i = 0; i <= len / 2; i++)
     {
         if (word[i] != word[len - i - 1])
             return false;
     }
     return true;
+}
+
+void problem9()
+{
+    int k, n;
+    scanf("%d %d", &k, &n);
+    int arr[n];
+    int mid = (1 + k) / 2;
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == mid)
+        {
+            for (int j = i; j > 0; j--)
+            {
+                arr[j] = arr[j - 1];
+            }
+            arr[0] = mid;
+            break;
+        }
+    }
+    int idx = 0;
+    for (int i = 1; i < n; i++)
+    {
+        if (arr[i] < mid)
+        {
+            int num = arr[i];
+            for (int j = i; j > idx; j--)
+            {
+                arr[j] = arr[j - 1];
+            }
+            arr[idx] = num;
+            idx++;
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+void problem10()
+{
+    char S[1000], A[1000];
+    scanf("%s", S);
+    scanf("%s", A);
+    int freq1[26] = {0};
+    int freq2[26] = {0};
+    int n = strlen(S);
+    for (int i = 0; i < n; i++)
+    {
+        freq1[S[i] - 'a']++;
+        freq2[A[i] - 'a']++;
+    }
+    for (int i = 0; i < 26; i++)
+    {
+        if (freq1[i] != freq2[i])
+        {
+            printf("NOT POSSIBLE\n");
+            return;
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (S[j] == A[i])
+            {
+                printf("%d ", j + 1);
+                S[j] = '#';
+                break;
+            }
+        }
+    }
+    printf("\n");
 }
