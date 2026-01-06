@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cassert>
+#include <map>
 
 using namespace std;
 
@@ -9,10 +10,11 @@ using namespace std;
 
 void problemA(); // this is wrong
 void problemB();
+void problemD();
 
 int main()
 {
-    problemB();
+    problemD();
     return 0;
 }
 
@@ -73,4 +75,25 @@ void problemB()
             cout << ps[b] - ps[a + 1] << "\n";
         }
     }
+}
+
+void problemD(){
+    int n;
+    long double k;
+    cin>>n>>k;
+    vector<long double>v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+        v[i]-=k;
+    }
+    map<long double, int>mp;
+    mp[0]=1;
+    int answer = 0;
+    long double sum = 0;
+    for(int i=0;i<n;i++){
+        sum+=v[i];
+        answer+=(mp[sum]);
+        mp[sum]++;
+    }
+    cout<<answer<<"\n";
 }
