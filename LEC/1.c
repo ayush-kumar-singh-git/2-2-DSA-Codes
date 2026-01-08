@@ -20,16 +20,51 @@ typedef struct task_t{
     int end;
 }task;
 
-void sortTasks(Sort* s, int n){
-
+void swap(task* t1, task* t2){
+    task t = *t1;
+    *t1 = *t2;
+    *t2=t;
 }
 
+// returns 1 if a must come before b
 int cmp(task a, task b){
-    
+    if(a.st!=b.st){
+        if(a.st<b.st) return 1;
+        else return 0;
+    }else{
+        if(a.end <= b.end) return 1;
+        else return 0;
+    }
+    return 0;
+}
+
+void sortTasks(task* s, int n){
+    for(int i=0;i<n-1;i++){
+        for(int j = 0;j<n-i-1;j++){
+            if(cmp(s[j], s[j+1])==0){
+                swap(&s[j], &s[j+1]);
+            }
+        }
+    }
 }
 
 void taskSeclectionProblem(){
-    
+    int n;
+    scanf("%d", &n);
+    task list[n];
+    for(int i=0;i<n;i++){
+        scanf("%d %d", &list[i].st, &list[i].end);
+    }
+    sortTasks(list, n);
+    int prevEnd = -1;
+    for(int i=0;i<n;i++){
+        if(prevEnd <= list[i].st){
+            printf("%d %d\n", list[i].st, list[i].end);
+            prevEnd = list[i].end;
+        }else{
+            continue;
+        }
+    }
 }
 
 
@@ -37,6 +72,7 @@ int main()
 {
     // addBigNum();
     // checkHamilton();
+    taskSeclectionProblem();
     return 0;
 }
 
@@ -183,4 +219,5 @@ int checkHamilton()
         if (!ok)
             printf("Not Valid\n");
     }
+    return 0; // not required
 }
