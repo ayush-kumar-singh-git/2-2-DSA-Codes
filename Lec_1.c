@@ -14,6 +14,25 @@ void reverse(char *s, int n);
 // given path in a graph checking if it is valid and hamilton
 int checkHamilton();
 
+// task selection problem
+typedef struct task_t{
+    int st;
+    int end;
+}task;
+
+void sortTasks(Sort* s, int n){
+
+}
+
+int cmp(task a, task b){
+    
+}
+
+void taskSeclectionProblem(){
+    
+}
+
+
 int main()
 {
     // addBigNum();
