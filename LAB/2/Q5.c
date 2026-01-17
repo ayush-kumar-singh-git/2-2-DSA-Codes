@@ -12,10 +12,12 @@ Node *addNode(Node* head, Node* newNode);
 Node* readList();
 void printList(Node* head);
 Node* swapInPairs(Node* head);
+Node* swapInPairsItr(Node* head);
+
 int main()
 {
     Node* list = readList();
-    list = swapInPairs(list);
+    list = swapInPairsItr(list);
     printList(list);
     return 0;
 }
@@ -81,3 +83,23 @@ Node* swapInPairs(Node* head){
     return two;
 }
 
+Node* swapInPairsItr(Node* head){
+    if(!head || !(head->next)) return head;
+    Node* ances = NULL;
+    Node* prev = head;
+    Node* curr = head -> next;
+    head = curr;
+    while(1){
+        Node* nextNode = curr -> next;
+        Node* nextAnces = prev;
+        curr -> next = prev;
+        prev -> next = nextNode;
+        if(ances!=NULL)
+        ances -> next = curr;
+        if(!nextNode || !(nextNode->next)) break;
+        prev = nextNode;
+        curr = nextNode -> next;
+        ances = nextAnces;
+    }
+    return head;
+}
