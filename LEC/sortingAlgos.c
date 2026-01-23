@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 /*
- * Sorting Algorithm    TC(Worst)     TC(Best)    SC(excluding stack space)
- * Bubble Sort          O(n^2)        O(n)              O(1)
- * Insertion Sort       O(n^2)        O(n)              O(1)
- * Merge Sort           O(nlogn)      O(nlogn)          O(n)
- * Quick Sort           O(n^2)        O(nlogn)          O(1)
+ * Sorting Algorithm    TC(Worst)     TC(Best)          SC      Stable
+ * Bubble Sort          O(n^2)        O(n)              O(1)    YES  
+ * Insertion Sort       O(n^2)        O(n)              O(1)    YES
+ * Merge Sort           O(nlogn)      O(nlogn)          O(n)    YES
+ * Quick Sort           O(n^2)        O(nlogn)          O(1)    NO
+ * Count Sort           O(n)          O(n)              O(n)    YES
  */
 
 void bubbleSort(int* a, int n);
@@ -19,6 +21,8 @@ int partition(int* a, int l, int r);
 void quickSortHelp(int* a, int l, int r);
 void print(int* a, int n);
 void swap(int* a, int* b);
+void countSort(int* a, int n);
+int max(int a, int b);
 
 int main()
 {
@@ -26,7 +30,7 @@ int main()
     scanf("%d", &n);
     int* a = (int*) calloc(n, sizeof(int));
     for(int i=0;i<n;i++) scanf("%d", &a[i]);
-    quickSort(a,n);
+    countSort(a,n);
     print(a,n);
     free(a);
     return 0;
@@ -133,6 +137,38 @@ void quickSortHelp(int* a, int l, int r) {
     }
 }
 
+void countSort(int* a, int n){
+    int maxm = INT_MIN;
+    for(int i=0;i<n;i++){
+        maxm = max(maxm, a[i]);
+    }
+    int* aux = (int*)calloc(maxm+1, sizeof(int));
+    for(int i=0;i<n;i++){
+        aux[a[i]]++;
+    }
+
+    int* ps = (int*)calloc(maxm+1, sizeof(int));
+    ps[0] = aux[0];
+    for(int i=1;i<=maxm;i++){
+        ps[i] = (ps[i-1]+aux[i]);
+    }
+    int* new = (int*) calloc(n, sizeof(int));
+    for(int i=n-1;i>=0;i--){
+        if(aux[a[i]]==0) continue;
+        else {
+            new[ps[a[i]]-1] = a[i];
+            ps[a[i]]--;
+        }
+    }
+    for(int i=0;i<n;i++){
+        a[i]=new[i];
+    }
+    free(aux);
+    free(new);
+    free(ps);
+    return;
+}
+
 void print(int* a, int n){
     for(int i=0;i<n; i++){
         printf("%d ", a[i]);
@@ -146,4 +182,8 @@ void swap(int* a, int* b){
     *a = *b;
     *b = t;
     return;
+}
+
+int max(int a, int b){
+    return a>b?a:b;
 }
