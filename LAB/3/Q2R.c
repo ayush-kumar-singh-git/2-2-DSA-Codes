@@ -2,7 +2,7 @@
  * Logic : check if boundaries are peak, else check the remaining using BS
  * TC O(log n)
  * SC O(1) other than the input list
- * */
+ */
 
 #include <stdio.h>
 #include <stdlib.h>

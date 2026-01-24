@@ -1,8 +1,8 @@
 /*
  * Logic : Binary search on answer
- * TC O(INT_MAX) = O(1) basically
+ * TC O(log(INT_MAX)) = O(1) basically
  * SC O(1) other than the input list
- * */
+ */
 
 #include <stdio.h>
 #include <stdlib.h>

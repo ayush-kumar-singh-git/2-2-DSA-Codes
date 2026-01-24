@@ -2,7 +2,7 @@
  * Logic : Take input in a struct, define custom comparator, bubble sort
  * TC O(n^2)
  * SC O(1) other than the input list
- * */
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
