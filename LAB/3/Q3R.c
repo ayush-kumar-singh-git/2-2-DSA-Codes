@@ -1,6 +1,6 @@
 /*
  * Logic : Binary search on answer
- * TC O(log(INT_MAX)) = O(1) basically
+ * TC O(n*log(INT_MAX)) = O(n) basically
  * SC O(1) other than the input list
  */
 
