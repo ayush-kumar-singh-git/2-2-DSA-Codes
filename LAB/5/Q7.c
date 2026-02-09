@@ -13,7 +13,7 @@ int partition(int* a, int l, int r){
     int left = l+1, right = r;
     while(1){
         while(left<=r && a[left]<pivot) left++;
-        while(a[right]>pivot) right--;
+        while(right>=l && a[right]>pivot) right--;
         if(left>=right) break;
         swap(&a[left], &a[right]);
     }

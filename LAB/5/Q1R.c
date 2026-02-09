@@ -28,6 +28,6 @@ int main()
         printf("\n");
     }
     int sum = ps[r2][c2] - ps[r1-1][c2] - ps[r2][c1-1] + ps[r1-1][c1-1];
-    printf("Sum: %d\n",sum);
+    printf("Sum = %d\n",sum);
     return 0;
 }
