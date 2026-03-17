@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node_t
+{
+    int data;
+    struct Node_t *left;
+    struct Node_t *right;
+} Node;
+
+Node *createNode(int val)
+{
+    Node *newNode = malloc(sizeof(Node));
+    newNode->data = val;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+Node *findParent(Node *root, int val)
+{
+    if (!root)
+        return NULL;
+    if (root->data > val && root->left == NULL)
+        return root;
+    else if (root->data < val && root->right == NULL)
+        return root;
+    else if (root->data > val)
+        return findParent(root->left, val);
+    else if (root->data < val)
+        return findParent(root->right, val);
+}
+
+Node *insert(Node *root, int val)
+{
+    Node *newNode = createNode(val);
+    if (!root)
+        return newNode;
+    Node *parent = findParent(root, val);
+    if (val < parent->data)
+        parent->left = newNode;
+    else
+        parent->right = newNode;
+    return root;
+}
+
+void inorder(Node *root)
+{
+    if (!root)
+        return;
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+    return;
+}
+
+Node *buildBST(int *a, int n)
+{
+    Node *root = NULL;
+    for (int i = 0; i < n; i++)
+    {
+        root = insert(root, a[i]);
+    }
+    return root;
+}
+
+Node* find(Node* root, int x){
+    if(!root || root->data == x) return root;
+    if( x < root->data) return find(root->left, x);
+    else return find(root->right, x); 
+}
+
+int countChildren(Node* root){
+    if(!root) return 0;
+    int ans = 1;
+    ans += countChildren(root->left);
+    ans += countChildren(root->right);
+    return ans;
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    int a[n];
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &a[i]);
+    }
+    Node *root = buildBST(a, n);
+    for(int i=0;i<n;i++){
+        printf("%d ", countChildren(find(root, a[i]))-1);
+    }
+    printf("\n");
+    return 0;
+}
